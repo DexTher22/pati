@@ -3,6 +3,7 @@ package com.example.controllers;
 import java.util.List;
 
 import com.example.App;
+import com.example.models.Crypt;
 import com.example.models.Password;
 import com.example.models.Storage;
 import com.example.models.User;
@@ -10,6 +11,7 @@ import com.example.models.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -61,7 +63,12 @@ public class UserController {
         }
         User user = new User();
         user.setUser(userField.getText());
-        user.setPass(passField.getText());
+
+        String clearPass = passField.getText();
+        String salt = Crypt.generateSalt(8);
+        String hash = Crypt.hash(salt + clearPass);
+        user.setPass(salt + "$" + hash);
+        
         user.setRole(roleField.getText());
         userTable.getItems().add(user);
 
@@ -162,8 +169,10 @@ public class UserController {
     @FXML
     void onClickSaveButton(ActionEvent event) {
         Storage.writeContent(userTable.getItems());
+        
     }
 
+    
     @FXML
     void onMouseClicked(MouseEvent event) {
         if(event.getClickCount() == 2) {

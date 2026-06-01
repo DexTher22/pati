@@ -5,3 +5,5 @@ TODO: refaktorálás: isValidUserField()
 TODO: beléptetés
 TODO: REST API használata
 TODO: A módosítás gomb csak szerkesztéskor legyen elérhető
+TODO: A jelszó bekérésnél csak *
+TODO: 
